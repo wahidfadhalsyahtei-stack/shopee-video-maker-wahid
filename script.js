@@ -1,64 +1,82 @@
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
+const preview = document.getElementById("preview")
 
 let images = [
-"https://via.placeholder.com/600",
-"https://via.placeholder.com/600/ff5722",
-"https://via.placeholder.com/600/000"
+"https://picsum.photos/600/600?1",
+"https://picsum.photos/600/600?2",
+"https://picsum.photos/600/600?3"
 ]
 
-let index = 0
 let recorder
 let chunks = []
 
 function generateVideo(){
 
-let stream = canvas.captureStream(30)
+chunks = []
 
-recorder = new MediaRecorder(stream)
+const stream = canvas.captureStream(30)
 
-recorder.ondataavailable = e => chunks.push(e.data)
+recorder = new MediaRecorder(stream, {
+mimeType: "video/webm"
+})
 
-recorder.onstop = exportVideo
+recorder.ondataavailable = e => {
+if(e.data.size > 0){
+chunks.push(e.data)
+}
+}
+
+recorder.onstop = () => {
+
+const blob = new Blob(chunks,{type:"video/webm"})
+
+const url = URL.createObjectURL(blob)
+
+preview.src = url
+
+window.videoURL = url
+
+}
 
 recorder.start()
 
-let interval = setInterval(()=>{
+let i = 0
+
+function draw(){
 
 let img = new Image()
 
-img.src = images[index]
+img.crossOrigin="anonymous"
 
-img.onload = ()=>{
+img.src = images[i]
+
+img.onload = () => {
 
 ctx.clearRect(0,0,canvas.width,canvas.height)
 
 ctx.drawImage(img,60,60,600,600)
 
 ctx.font="40px Arial"
-ctx.fillText("Produk Viral Shopee",150,50)
+ctx.fillText("Produk Viral",200,50)
 
 }
 
-index++
+i++
 
-if(index >= images.length){
+if(i < images.length){
 
-clearInterval(interval)
+setTimeout(draw,2000)
 
-setTimeout(()=> recorder.stop(),1000)
+}else{
 
-}
-
-},2000)
+setTimeout(()=>recorder.stop(),2000)
 
 }
 
-function exportVideo(){
+}
 
-let blob = new Blob(chunks,{type:"video/webm})
-
-window.videoURL = URL.createObjectURL(blob)
+draw()
 
 }
 
@@ -66,7 +84,7 @@ function downloadVideo(){
 
 if(window.videoURL){
 
-let a = document.createElement("a")
+const a = document.createElement("a")
 
 a.href = window.videoURL
 
@@ -76,5 +94,5 @@ a.click()
 
 }
 
-
 }
+
