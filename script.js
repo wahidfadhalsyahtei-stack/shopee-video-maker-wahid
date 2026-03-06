@@ -56,7 +56,7 @@ setTimeout(()=> recorder.stop(),1000)
 
 function exportVideo(){
 
-let blob = new Blob(chunks,{type:"video/mp4"})
+let blob = new Blob(chunks,{type:"video/webm})
 
 window.videoURL = URL.createObjectURL(blob)
 
@@ -70,10 +70,11 @@ let a = document.createElement("a")
 
 a.href = window.videoURL
 
-a.download = "video-produk.mp4"
+a.download = "video-produk.webm"
 
 a.click()
 
 }
+
 
 }
