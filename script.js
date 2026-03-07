@@ -15,7 +15,7 @@ const price = document.getElementById("price").value
 let images = [
 document.getElementById("img1").value,
 document.getElementById("img2").value,
-document.getElementById("img3").value
+document.getElementById("img3").value,
 document.getElementById("img4").value,
 document.getElementById("img5").value,
 document.getElementById("img6").value
@@ -100,4 +100,5 @@ a.click()
 }
 
 }
+
 
