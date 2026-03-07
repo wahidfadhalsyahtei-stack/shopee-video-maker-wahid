@@ -2,21 +2,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Shopee Video Generator</title>
+<title>Shopee Auto Video Generator</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Auto Video Produk Shopee</h1>
+<h1>Shopee Auto Video Generator</h1>
 
-<input type="text" id="link" placeholder="Paste link Shopee disini">
+<input id="title" placeholder="Judul Produk">
+
+<input id="price" placeholder="Harga Produk">
+
+<input id="img1" placeholder="Link Gambar 1">
+
+<input id="img2" placeholder="Link Gambar 2">
+
+<input id="img3" placeholder="Link Gambar 3">
+
+<br>
 
 <button onclick="generateVideo()">Buat Video</button>
 
-<br><br>
+<br>
 
 <canvas id="canvas" width="720" height="720"></canvas>
+
+<br>
+
+<video id="preview" controls></video>
 
 <br>
 
