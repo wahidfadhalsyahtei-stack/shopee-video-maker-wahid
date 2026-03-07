@@ -2,12 +2,6 @@ const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
 const preview = document.getElementById("preview")
 
-let images = [
-"https://down-id.img.susercontent.com/file/c941907459deb759e4bcdb3a2d17c61b@resize_w900_nl.webp?1",
-"https://picsum.photos/600/600?2",
-"https://picsum.photos/600/600?3"
-]
-
 let recorder
 let chunks = []
 
@@ -15,23 +9,27 @@ function generateVideo(){
 
 chunks = []
 
+const title = document.getElementById("title").value
+const price = document.getElementById("price").value
+
+let images = [
+document.getElementById("img1").value,
+document.getElementById("img2").value,
+document.getElementById("img3").value
+]
+
 const stream = canvas.captureStream(30)
 
-recorder = new MediaRecorder(stream, {
-mimeType: "video/webm"
-})
+recorder = new MediaRecorder(stream,{mimeType:"video/webm"})
 
-recorder.ondataavailable = e => {
-if(e.data.size > 0){
-chunks.push(e.data)
-}
+recorder.ondataavailable = e=>{
+if(e.data.size>0) chunks.push(e.data)
 }
 
-recorder.onstop = () => {
+recorder.onstop = ()=>{
 
-const blob = new Blob(chunks,{type:"video/webm"})
-
-const url = URL.createObjectURL(blob)
+let blob = new Blob(chunks,{type:"video/webm"})
+let url = URL.createObjectURL(blob)
 
 preview.src = url
 
@@ -51,14 +49,19 @@ img.crossOrigin="anonymous"
 
 img.src = images[i]
 
-img.onload = () => {
+img.onload = ()=>{
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.clearRect(0,0,720,720)
 
-ctx.drawImage(img,60,60,600,600)
+ctx.drawImage(img,60,100,600,500)
 
+ctx.fillStyle="black"
 ctx.font="40px Arial"
-ctx.fillText("Produk Viral",200,50)
+ctx.fillText(title,50,50)
+
+ctx.fillStyle="red"
+ctx.font="35px Arial"
+ctx.fillText(price,50,650)
 
 }
 
@@ -84,10 +87,9 @@ function downloadVideo(){
 
 if(window.videoURL){
 
-const a = document.createElement("a")
+let a = document.createElement("a")
 
 a.href = window.videoURL
-
 a.download = "video-produk.webm"
 
 a.click()
@@ -95,5 +97,3 @@ a.click()
 }
 
 }
-
-
